@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the project name
-PROJECT_NAME="ansible-ubuntu-project"
+PROJECT_NAME="ansible-ubuntu"
 
 # Create the main project directory
 mkdir -p $PROJECT_NAME
