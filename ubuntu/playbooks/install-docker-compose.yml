@@ -1,22 +1,22 @@
-# FILE: roles/common/tasks/install-docker-compose.yml
 ---
-- name: Ensure pip is installed
-  apt:
-    name: python3-pip
-    state: present
+- hosts: all
   become: yes
+  tasks:
+    - name: Ensure pip is installed
+      apt:
+        name: python3-pip
+        state: present
 
-- name: Install docker-compose using pip
-  pip:
-    name: docker-compose
-    state: present
-  become: yes
+    - name: Install docker-compose using pip
+      pip:
+        name: docker-compose
+        state: present
 
-- name: Verify docker-compose installation
-  command: docker-compose --version
-  register: docker_compose_version
-  changed_when: false
+    - name: Verify docker-compose installation
+      command: docker-compose --version
+      register: docker_compose_version
+      changed_when: false
 
-- name: Display docker-compose version
-  debug:
-    msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
+    - name: Display docker-compose version
+      debug:
+        msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
