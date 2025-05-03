@@ -1,0 +1,10 @@
+---
+- name: Disable UFW
+  hosts: all
+  become: yes
+  tasks:
+    - name: Stop and disable UFW
+      service:
+        name: ufw.service
+        state: stopped
+        enabled: no
