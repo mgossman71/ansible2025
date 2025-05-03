@@ -2,18 +2,23 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Ensure pip is installed
+    - name: Ensure required packages are installed
       apt:
-        name: python3-pip
+        name:
+          - python3-pip
+          - python3-venv
         state: present
 
-    - name: Install docker-compose using pip
-      pip:
-        name: docker-compose
-        state: present
+    - name: Create a virtual environment
+      command: python3 -m venv /opt/docker-compose-venv
+      args:
+        creates: /opt/docker-compose-venv
+
+    - name: Install docker-compose in the virtual environment
+      command: /opt/docker-compose-venv/bin/pip install docker-compose
 
     - name: Verify docker-compose installation
-      command: docker-compose --version
+      command: /opt/docker-compose-venv/bin/docker-compose --version
       register: docker_compose_version
       changed_when: false
 
