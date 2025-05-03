@@ -1,3 +1,4 @@
 ---
 - import_playbook: enable_root_ssh.yml
 - import_playbook: disable_ufw.yml
+- import_playbook: install_docker_compose.yml
