@@ -1,14 +1,30 @@
-   - name: Ensure required system packages are installed
-     apt:
-       name:
-         - python3-pip
-         - python3-venv
-         - build-essential
-         - libffi-dev
-         - libssl-dev
-         - python3-dev
-         - gcc
-         - make
-         - python3-wheel
-         - cython
-       state: present
+- name: Install Docker Compose
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Ensure required system packages are installed
+      apt:
+        name:
+          - python3-pip
+          - python3-venv
+          - build-essential
+          - libffi-dev
+          - libssl-dev
+          - python3-dev
+          - gcc
+          - make
+          - python3-wheel
+          - cython
+        state: present
+
+    - name: Create a virtual environment for Docker Compose
+      command: python3 -m venv /opt/docker-compose-venv
+      args:
+        creates: /opt/docker-compose-venv
+
+    - name: Upgrade pip in the virtual environment
+      command: /opt/docker-compose-venv/bin/pip install --upgrade pip
+
+    - name: Install docker-compose in the virtual environment
+      command: /opt/docker-compose-venv/bin/pip install docker-compose
