@@ -11,7 +11,6 @@
       apt:
         name:
           - python3-pip
-          - python3-venv
           - build-essential
           - libffi-dev
           - libssl-dev
@@ -23,13 +22,8 @@
           - python3-setuptools
         state: present
 
-    - name: Create a virtual environment for Docker Compose
-      command: python3 -m venv /opt/docker-compose-venv
-      args:
-        creates: /opt/docker-compose-venv
+    - name: Upgrade pip globally
+      command: pip3 install --upgrade pip setuptools wheel
 
-    - name: Upgrade pip in the virtual environment
-      command: /opt/docker-compose-venv/bin/pip install --upgrade pip setuptools wheel
-
-    - name: Install docker-compose in the virtual environment
-      command: /opt/docker-compose-venv/bin/pip install docker-compose==1.29.2
+    - name: Install docker-compose globally
+      command: pip3 install docker-compose==1.29.2
