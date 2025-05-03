@@ -1,37 +1,14 @@
----
-- hosts: all
-  become: yes
-  tasks:
-    - name: Ensure required system packages are installed
-      apt:
-        name:
-          - python3-pip
-          - python3-venv
-          - build-essential
-          - libffi-dev
-          - libssl-dev
-          - python3-dev
-          - gcc
-          - make
-          - python3-wheel
-        state: present
-
-    - name: Create a virtual environment
-      command: python3 -m venv /opt/docker-compose-venv
-      args:
-        creates: /opt/docker-compose-venv
-
-    - name: Upgrade pip and install wheel in the virtual environment
-      command: /opt/docker-compose-venv/bin/pip install --upgrade pip wheel
-
-    - name: Install docker-compose in the virtual environment
-      command: /opt/docker-compose-venv/bin/pip install docker-compose
-
-    - name: Verify docker-compose installation
-      command: /opt/docker-compose-venv/bin/docker-compose --version
-      register: docker_compose_version
-      changed_when: false
-
-    - name: Display docker-compose version
-      debug:
-        msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
+   - name: Ensure required system packages are installed
+     apt:
+       name:
+         - python3-pip
+         - python3-venv
+         - build-essential
+         - libffi-dev
+         - libssl-dev
+         - python3-dev
+         - gcc
+         - make
+         - python3-wheel
+         - cython
+       state: present
