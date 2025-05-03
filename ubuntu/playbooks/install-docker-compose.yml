@@ -12,6 +12,8 @@
           - libssl-dev
           - python3-dev
           - gcc
+          - make
+          - python3-wheel
         state: present
 
     - name: Create a virtual environment
@@ -19,8 +21,8 @@
       args:
         creates: /opt/docker-compose-venv
 
-    - name: Upgrade pip in the virtual environment
-      command: /opt/docker-compose-venv/bin/pip install --upgrade pip
+    - name: Upgrade pip and install wheel in the virtual environment
+      command: /opt/docker-compose-venv/bin/pip install --upgrade pip wheel
 
     - name: Install docker-compose in the virtual environment
       command: /opt/docker-compose-venv/bin/pip install docker-compose
