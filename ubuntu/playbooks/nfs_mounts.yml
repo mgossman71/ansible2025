@@ -16,6 +16,7 @@
         owner: root
         group: root
         mode: '0755'
+      become: yes
 
     - name: Mount NFS share
       mount:
