@@ -20,7 +20,7 @@
     - name: Mount NFS share
       mount:
         path: /mnt/linux_tools
-        src: filer:/volume1/linux_tools
+        src: filer:/volume1/linux-tools
         fstype: nfs
         state: mounted
 
