@@ -1,4 +1,5 @@
 ---
 - import_playbook: enable_root_ssh.yml
 - import_playbook: disable_ufw.yml
+- import_playbook: set_static_resolv_conf.yml
 # - import_playbook: install_docker-compose.yml
