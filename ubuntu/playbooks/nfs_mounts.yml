@@ -9,13 +9,19 @@
         state: present
         update_cache: yes
 
-    - name: Create local mount directory
+    - name: Check if NFS share is already mounted
+      command: mountpoint -q /mnt/linux_tools
+      register: mount_check
+      ignore_errors: yes
+
+    - name: Create local mount directory if not mounted
       file:
         path: /mnt/linux_tools
         state: directory
         owner: root
         group: root
         mode: '0755'
+      when: mount_check.rc != 0
       become: yes
 
     - name: Mount NFS share
