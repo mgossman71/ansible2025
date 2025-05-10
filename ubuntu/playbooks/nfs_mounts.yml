@@ -1,0 +1,31 @@
+---
+- name: Mount NFS share
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure NFS client is installed
+      apt:
+        name: nfs-common
+        state: present
+        update_cache: yes
+
+    - name: Create local mount directory
+      file:
+        path: /mnt/linux_tools
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Mount NFS share
+      mount:
+        path: /mnt/linux_tools
+        src: filer:/volume1/linux_tools
+        fstype: nfs
+        state: mounted
+
+    - name: Ensure NFS share is persistent across reboots
+      lineinfile:
+        path: /etc/fstab
+        line: "filer:/volume1/linux_tools /mnt/linux_tools nfs defaults 0 0"
+        state: present
