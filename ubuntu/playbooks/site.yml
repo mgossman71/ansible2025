@@ -1,6 +1,6 @@
 ---
 - import_playbook: enable_root_ssh.yml
 - import_playbook: disable_ufw.yml
-- import_playbook: set_dns.yml
+# - import_playbook: set_dns.yml
 - import_playbook: nfs_mounts.yml
 # - import_playbook: install_docker-compose.yml
