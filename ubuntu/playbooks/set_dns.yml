@@ -1,5 +1,5 @@
 ---
-- name: Set DNS to point to 10.0.0.5
+- name: Set DNS to point to 10.0.0.10
   hosts: all
   become: yes
   tasks:
@@ -10,9 +10,9 @@
         remote_src: yes
         force: yes
 
-    - name: Set DNS to 10.0.0.5
+    - name: Set DNS to 10.0.0.10
       lineinfile:
         path: /etc/resolv.conf
-        line: "nameserver 10.0.0.5"
+        line: "nameserver 10.0.0.10"
         state: present
         create: yes
