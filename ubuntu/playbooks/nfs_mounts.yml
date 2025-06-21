@@ -35,5 +35,5 @@
       lineinfile:
         path: /etc/fstab
         line: "filer:/volume1/linux_tools /mnt/linux_tools nfs defaults 0 0"
-        regexp: '^[^#]*filer:/volume1/linux_tools\s+/mnt/linux_tools\s+nfs\s+'
+        regexp: '^filer:/volume1/linux_tools\s+/mnt/linux_tools\s+nfs\s+'
         state: present
