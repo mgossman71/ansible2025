@@ -16,11 +16,17 @@
         name: systemd-resolved
         state: restarted
 
+    - name: Check if bind9 service exists
+      shell: systemctl list-unit-files | grep -q '^bind9\.service'
+      register: bind9_exists
+      ignore_errors: yes
+
     - name: Stop and disable bind9 if running
       systemd:
         name: bind9
         state: stopped
         enabled: no
+      when: bind9_exists.rc == 0
 
     - name: Ensure dnsmasq is stopped and disabled (if present)
       systemd:
