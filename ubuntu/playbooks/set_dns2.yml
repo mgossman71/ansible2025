@@ -35,4 +35,5 @@
 
     - name: Show port 53 status
       debug:
-        msg: "{{ 'Port 53 is still in use:\n' + port_53_check.stdout if port_53_check.rc == 0 else 'Port 53 is free.'
+        msg: '{{ "Port 53 is still in use:\n" + port_53_check.stdout if port_53_check.rc == 0 else "Port 53 is free." }}'
+
