@@ -1,0 +1,38 @@
+---
+- name: Free port 53 on Ubuntu servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure DNSStubListener is set to no and uncommented
+      lineinfile:
+        path: /etc/systemd/resolved.conf
+        regexp: '^#?DNSStubListener=.*'
+        line: 'DNSStubListener=no'
+        state: present
+        backup: yes
+
+    - name: Restart systemd-resolved
+      systemd:
+        name: systemd-resolved
+        state: restarted
+
+    - name: Stop and disable bind9 if running
+      systemd:
+        name: bind9
+        state: stopped
+        enabled: no
+
+    - name: Ensure dnsmasq is stopped and disabled (if present)
+      systemd:
+        name: dnsmasq
+        state: stopped
+        enabled: no
+
+    - name: Check if port 53 is free
+      shell: ss -tulpn | grep ':53 '
+      register: port_53_check
+      ignore_errors: yes
+
+    - name: Show port 53 status
+      debug:
+        msg: "{{ 'Port 53 is still in use:\n' + port_53_check.stdout if port_53_check.rc == 0 else 'Port 53 is free.'
