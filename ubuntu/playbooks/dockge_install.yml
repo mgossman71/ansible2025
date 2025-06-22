@@ -5,7 +5,7 @@
 
   vars:
     dockge_port: 5001
-    dockge_data_dir: /opt/dockge
+    dockge_data_dir: /code/dockge
     dockge_stacks_dir: /opt/stacks
 
   tasks:
@@ -37,15 +37,28 @@
         group: root
         mode: '0755'
 
-    - name: Run Dockge container
-      docker_container:
-        name: dockge
-        image: louislam/dockge:latest
-        restart_policy: always
-        ports:
-          - "{{ dockge_port }}:5001"
-        volumes:
-          - "{{ dockge_data_dir }}:/app/data"
-          - "{{ dockge_stacks_dir }}:/opt/stacks"
-        env:
-          DOCKGE_STACKS_DIR: "{{ dockge_stacks_dir }}"
+    - name: Download compose.yaml for Dockge
+      get_url:
+        url: https://raw.githubusercontent.com/louislam/dockge/master/compose.yaml
+        dest: /code/dockge/compose.yaml
+
+    - name: Start Dockge with docker-compose
+      community.docker.docker_compose:
+        project_src: /code/dockge
+        state: present
+
+        
+    # - name: Run Dockge container
+    #   docker_container:
+    #     name: dockge
+    #     image: louislam/dockge:latest
+    #     restart_policy: always
+    #     ports:
+    #       - "{{ dockge_port }}:5001"
+    #     volumes:
+    #       - "{{ dockge_data_dir }}:/app/data"
+    #       - "{{ dockge_stacks_dir }}:/opt/stacks"
+    #     env:
+    #       DOCKGE_STACKS_DIR: "{{ dockge_stacks_dir }}"
+
+    

@@ -4,7 +4,7 @@
   become: true
 
   vars:
-    dockge_data_dir: /opt/dockge
+    dockge_data_dir: /code/dockge
     dockge_stacks_dir: /opt/stacks
 
   tasks:
