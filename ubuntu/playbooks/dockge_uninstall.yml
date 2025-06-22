@@ -1,0 +1,24 @@
+---
+- name: Uninstall Dockge and clean up
+  hosts: all
+  become: true
+
+  vars:
+    dockge_data_dir: /opt/dockge
+    dockge_stacks_dir: /opt/stacks
+
+  tasks:
+    - name: Stop and remove Dockge container
+      docker_container:
+        name: dockge
+        state: absent
+        force_kill: true
+
+    - name: Remove Dockge data directory
+      file:
+        path: "{{ dockge_data_dir }}"
+        state: absent
+
+    - name: Remove stacks directory
+      file:
+        path: "{{ dockge_stacks_dir }}"
