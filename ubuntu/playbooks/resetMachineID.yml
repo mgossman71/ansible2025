@@ -1,0 +1,7 @@
+---
+- name: Truncate /etc/machine-id to zero length
+  hosts: all
+  become: true
+  tasks:
+    - name: Truncate /etc/machine-id
+      command: truncate -s 0 /etc/machine-id 

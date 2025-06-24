@@ -3,4 +3,5 @@
 - import_playbook: disable_ufw.yml
 - import_playbook: set_dns2.yml
 - import_playbook: nfs_mounts.yml
+- import_playbook: resetMachineID.yml
 # - import_playbook: install_docker-compose.yml
