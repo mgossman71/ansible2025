@@ -1,0 +1,17 @@
+---
+- name: Add local id_rsa.pub key to remote authorized_keys
+  hosts: all
+  become: false
+  vars:
+    public_key_path: "{{ lookup('env', 'HOME') + '/.ssh/id_rsa.pub' }}"
+  tasks:
+    - name: Read local id_rsa.pub
+      ansible.builtin.slurp:
+        src: "{{ public_key_path }}"
+      delegate_to: localhost
+      register: pubkey_content
+
+    - name: Add public key to authorized_keys
+      ansible.builtin.authorized_key:
+        user: "{{ ansible_user | default('root') }}"
+        key: "{{ pubkey_content['content'] | b64decode }}"
