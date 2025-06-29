@@ -5,6 +5,7 @@
   vars:
     apt_packages:
       - qemu-guest-agent
+      - fio
 
   tasks:
     - name: Install apt packages
