@@ -1,4 +1,5 @@
 ---
+- import_playbook: install_apt_packages.yml
 - import_playbook: enable_root_ssh.yml
 - import_playbook: disable_ufw.yml
 - import_playbook: set_dns2.yml

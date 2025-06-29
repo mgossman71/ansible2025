@@ -1,0 +1,20 @@
+---
+- name: Install apt packages
+  hosts: all
+  become: yes
+  vars:
+    apt_packages:
+      - qemu-guest-agent
+
+  tasks:
+    - name: Install apt packages
+      apt:
+        name: "{{ apt_packages }}"
+        state: present
+        update_cache: yes
+
+    - name: Start qemu-guest-agent service
+      service:
+        name: qemu-guest-agent
+        state: started
+      when: "'qemu-guest-agent' in apt_packages"
