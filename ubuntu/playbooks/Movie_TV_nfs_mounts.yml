@@ -1,0 +1,61 @@
+---
+- name: Mount Movies and TV NFS shares
+  hosts: all
+  become: yes
+  vars:
+    nfs_mounts:
+      - src: "10.0.0.241:/volume1/Movies"
+        path: "/mnt/movies"
+      - src: "10.0.0.241:/volume1/TV-Shows"
+        path: "/mnt/TV-Shows"
+      - src: "10.0.0.241:/volume1/TV-Shows1"
+        path: "/mnt/TV-Shows1"
+
+  tasks:
+    - name: Ensure NFS client is installed
+      apt:
+        name: nfs-common
+        state: present
+        update_cache: yes
+
+    - name: Check if NFS share is already mounted
+      command: mountpoint -q {{ item.path }}
+      register: mount_check
+      ignore_errors: yes
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: Create local mount directory if not mounted
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      when: mount_check.results[loop.index0].rc != 0
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.path }}"
+      become: yes
+
+    - name: Mount NFS share
+      mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src }}"
+        fstype: nfs
+        state: mounted
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: Ensure NFS share is persistent across reboots
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ item.src }} {{ item.path }} nfs defaults 0 0"
+        regexp: '^(#\s*)?{{ item.src | regex_escape() }}\s+{{ item.path | regex_escape() }}\s+nfs\s+.*$'
+        state: present
+        backrefs: yes
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.path }}"
