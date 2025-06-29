@@ -26,6 +26,15 @@
       loop_control:
         label: "{{ item.path }}"
 
+    - name: Set mount status facts
+      set_fact:
+        mount_status: >-
+          {{
+            mount_status | default({}) |
+            combine({ item.item.path: item.rc })
+          }}
+      loop: "{{ mount_check.results }}"
+
     - name: Create local mount directory if not mounted
       file:
         path: "{{ item.path }}"
@@ -33,11 +42,10 @@
         owner: root
         group: root
         mode: '0755'
-      when: mount_check.results[loop.index0].rc != 0
+      when: mount_status[item.path] != 0
       loop: "{{ nfs_mounts }}"
       loop_control:
         label: "{{ item.path }}"
-      become: yes
 
     - name: Mount NFS share
       mount:
