@@ -6,7 +6,8 @@
     apt_packages:
       - qemu-guest-agent
       - fio
-
+      - gcc
+      - make
   tasks:
     - name: Install apt packages
       apt:
