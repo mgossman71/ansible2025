@@ -43,3 +43,12 @@ EOF
 systemctl daemon-reexec       # Reload systemd manager itself
 systemctl daemon-reload       # Reload unit files
 systemctl restart ollama      # Restart the Ollama service 
+systemctl enable open-webui   # Enable the Open WebUI service to start on boot
+systemctl start open-webui    # Start the Open WebUI service
+# Print success message
+echo "Ollama and Open WebUI have been successfully set up."
+# Print the status of the Open WebUI service
+systemctl status open-webui --no-pager
+# Print the status of the Ollama service
+systemctl status ollama --no-pager
+
