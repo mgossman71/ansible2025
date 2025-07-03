@@ -24,20 +24,19 @@ pipx install open-webui
 # Create open-webui.service with the specified content
 cat <<EOF > /etc/systemd/system/open-webui.service
 [Unit]
-Description=Ollama Service
-After=network-online.target
+Description=Open WebUI Service
+After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/ollama serve 
-User=ollama
-Group=ollama
+Type=simple
+User=root
+ExecStart=/root/.local/bin/open-webui serve
 Restart=always
-RestartSec=3
-Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
-Environment=OLLAMA_NUM_GPU_LAYERS=30
+Environment=PATH=/root/.local/bin:/usr/bin:/bin
+
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 EOF
 
 # Reload systemd to recognize the new service
