@@ -33,7 +33,7 @@ User=root
 ExecStart=/root/.local/bin/open-webui serve
 Restart=always
 Environment=PATH=/root/.local/bin:/usr/bin:/bin
-
+Environment=ENABLE_RAG_WEB_SEARCH=true
 
 [Install]
 WantedBy=multi-user.target
