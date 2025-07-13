@@ -34,6 +34,7 @@ ExecStart=/root/.local/bin/open-webui serve
 Restart=always
 Environment=PATH=/root/.local/bin:/usr/bin:/bin
 Environment=ENABLE_RAG_WEB_SEARCH=true
+Environment="OLLAMA_HOST=0.0.0.0"
 
 [Install]
 WantedBy=multi-user.target
