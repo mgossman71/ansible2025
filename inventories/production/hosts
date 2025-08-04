@@ -2,7 +2,6 @@
 localhost ansible_connection=local
 [ubuntu]
 10.0.0.6
-10.0.0.7
 10.0.0.55
 10.0.0.218
 [lxc]
